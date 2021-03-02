@@ -17,3 +17,21 @@ export const createPost = async (data) => {
     console.log(e)
   }
 }
+
+export const deletePost = async (data) => {
+  console.log(data)
+  try {
+    //return await axios.post(url, data)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export const likedPost = async (data) => {
+  console.log(data)
+  try {
+    //return await axios.post(url, data)
+  } catch (e) {
+    console.log(e)
+  }
+}
