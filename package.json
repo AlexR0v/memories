@@ -1,0 +1,15 @@
+{
+  "name": "@memories/app",
+  "private": true,
+  "scripts": {
+    "start": "lerna run start",
+    "cliet:dev": "yarn workspace @client/app start",
+    "server:dev": "yarn workspace @server/app dev"
+  },
+  "dependencies": {
+    "lerna": "^3.22.1"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
