@@ -119,7 +119,7 @@ const Form = () => {
           ref={register}
           id='tags'
           name='tags'
-          label='Теги'
+          label='Теги (через запятую)'
           type='text'
           value={tags}
           onChange={(e) => setTags(e.target.value)}
