@@ -36,7 +36,7 @@ function App () {
           className={classes.heading}
           variant='h2'
           align='center'
-        >Карточки с воспоминаниями</Typography>
+        >Memories</Typography>
         <img
           className={classes.image}
           src={memories}

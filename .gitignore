@@ -3,6 +3,8 @@
 /site/app/dist
 /*.log
 **/dist
+/**/**.env
+packages/server/.env
 /dist-zip
 /.idea
 /.vscode
