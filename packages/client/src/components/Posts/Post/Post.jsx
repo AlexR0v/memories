@@ -10,7 +10,7 @@ import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import DeleteIcon from '@material-ui/icons/Delete'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 
-const Post = ({ post }) => {
+const Post = ({ post, setCurrentId }) => {
   const classes = useStyles()
   const time = moment(post.createAt).locale('ru')
 
@@ -57,8 +57,7 @@ const Post = ({ post }) => {
         <Button
           style={{ color: 'white' }}
           size='small'
-          onClick={() => {
-          }}
+          onClick={() => setCurrentId(post._id)}
         >
           <MoreHorizIcon />
         </Button>

@@ -4,7 +4,7 @@ import { queryClient } from '../../index'
 import useStyles from './posts-styles'
 import Post from './Post/Post'
 
-const Posts = () => {
+const Posts = ({setCurrentId}) => {
   const classes = useStyles()
   const data = queryClient.getQueryData('posts').data
   return (
@@ -23,7 +23,7 @@ const Posts = () => {
               xs={12}
               sm={6}
             >
-              <Post post={post} />
+              <Post post={post} setCurrentId={setCurrentId} />
             </Grid>
           ))
         }

@@ -19,9 +19,16 @@ export const createPost = async (data) => {
 }
 
 export const deletePost = async (data) => {
-  console.log(data)
   try {
-    //return await axios.post(url, data)
+    return await axios.delete(`${url}/${data}`)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export const updatePost = async (data) => {
+  try {
+    return await axios.put(`${url}/${data.currentId}`, data.value)
   } catch (e) {
     console.log(e)
   }
