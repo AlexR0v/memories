@@ -10,7 +10,7 @@ import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import DeleteIcon from '@material-ui/icons/Delete'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 
-const Post = ({ post }) => {
+const Post = ({ post, setCurrentId }) => {
   const classes = useStyles()
   const time = moment(post.createAt).locale('ru')
 
@@ -48,6 +48,7 @@ const Post = ({ post }) => {
         className={classes.media}
         image={post.selectedFile}
         title={post.title}
+        src='dsd'
       />
       <div className={classes.overlay}>
         <Typography variant='h6'>{post.creator}</Typography>
@@ -57,8 +58,7 @@ const Post = ({ post }) => {
         <Button
           style={{ color: 'white' }}
           size='small'
-          onClick={() => {
-          }}
+          onClick={() => setCurrentId(post._id)}
         >
           <MoreHorizIcon />
         </Button>
