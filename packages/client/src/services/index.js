@@ -17,3 +17,27 @@ export const createPost = async (data) => {
     console.log(e)
   }
 }
+
+export const deletePost = async (data) => {
+  try {
+    return await axios.delete(`${url}/${data}`)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export const updatePost = async (data) => {
+  try {
+    return await axios.put(`${url}/${data.currentId}`, data.value)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export const likedPost = async (data) => {
+  try {
+    return await axios.patch(`${url}/${data}`)
+  } catch (e) {
+    console.log(e)
+  }
+}

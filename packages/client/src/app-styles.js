@@ -11,6 +11,12 @@ export default makeStyles(() => ({
   },
   heading: {
     color: 'rgba(0,183,255, 1)',
+    '@media (max-width: 490px)' : {
+      fontSize: 45
+    },
+    '@media (max-width: 325px)' : {
+      fontSize: 35
+    }
   },
   image: {
     marginLeft: '15px',

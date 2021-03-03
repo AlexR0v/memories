@@ -1,11 +1,11 @@
 import { Button, Paper, Typography } from '@material-ui/core'
 import * as PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FileBase64 from 'react-file-base64'
 import { useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
 import { queryClient } from '../../index'
-import { createPost } from '../../services'
+import { createPost, updatePost } from '../../services'
 import { Input } from '../../ui/Input'
 import Loader from '../../ui/Loader'
 import { notifyError, notifySuccess } from '../../ui/Notification/Notification'
@@ -34,16 +34,29 @@ Alert.propTypes = {
   onClose: PropTypes.any,
   children: PropTypes.node
 }
-const Form = () => {
+const Form = ({ currentId, setCurrentId }) => {
   const classes = useStyles()
   const [creator, setCreator] = useState('')
   const [title, setTitle] = useState('')
   const [message, setMessage] = useState('')
   const [tags, setTags] = useState('')
   const [file, setFile] = useState(null)
+
+  const post = currentId ? queryClient.getQueryData('posts').data?.data.find(post=> post._id === currentId) : null
+
+  useEffect(()=>{
+    if(post){
+      setCreator(post.creator)
+      setTitle(post.title)
+      setMessage(post.message)
+      setTags(post.tags)
+    }
+  }, [post])
+
   const { register, handleSubmit, reset, errors } = useForm({
     mode: 'onSubmit',
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
+    defaultValues: { creator, title, message, tags}
   })
 
   const mutation = useMutation(createPost,
@@ -66,8 +79,33 @@ const Form = () => {
       }
     })
 
+  const mutationUpdate = useMutation(updatePost,
+    {
+      onSuccess: async (data) => {
+        if (data.data.success) {
+          notifySuccess(data.data.message)
+          reset({})
+          setCreator('')
+          setTitle('')
+          setMessage('')
+          setTags('')
+          setFile(null)
+          setCurrentId(null)
+          await queryClient.refetchQueries('posts')
+        }
+        if (!data.data.success) notifyError(data.data.message)
+      },
+      onError: (error) => {
+        notifyError(error.message)
+      }
+    })
+
   const onSubmit = (value) => {
-    mutation.mutate({ ...value, selectedFile: file })
+    if (currentId) {
+      mutationUpdate.mutate({ currentId, value })
+    } else {
+      mutation.mutate({ ...value, selectedFile: file })
+    }
   }
 
   if (mutation.isLoading) return <Loader />
@@ -119,7 +157,7 @@ const Form = () => {
           ref={register}
           id='tags'
           name='tags'
-          label='Теги'
+          label='Теги (через запятую)'
           type='text'
           value={tags}
           onChange={(e) => setTags(e.target.value)}
@@ -139,7 +177,9 @@ const Form = () => {
           size='large'
           type='submit'
           fullWidth
-        >Создать</Button>
+        >{
+          currentId ? 'Обновить' : 'Создать'
+        }</Button>
       </form>
     </Paper>
   )

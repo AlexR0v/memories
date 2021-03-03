@@ -1,4 +1,5 @@
 import { AppBar, Container, Grid, Grow, Typography } from '@material-ui/core'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
@@ -11,6 +12,8 @@ import Loader from './ui/Loader'
 
 function App () {
   const classes = useStyles()
+
+  const [currentId, setCurrentId] = useState(null)
 
   const {
     isLoading,
@@ -33,7 +36,7 @@ function App () {
           className={classes.heading}
           variant='h2'
           align='center'
-        >Воспоминания</Typography>
+        >Memories</Typography>
         <img
           className={classes.image}
           src={memories}
@@ -54,14 +57,14 @@ function App () {
               xs={12}
               sm={7}
             >
-              <Posts />
+              <Posts setCurrentId={setCurrentId} />
             </Grid>
             <Grid
               item
               xs={12}
               sm={4}
             >
-              <Form />
+              <Form currentId={currentId} setCurrentId={setCurrentId} />
             </Grid>
           </Grid>
         </Container>
