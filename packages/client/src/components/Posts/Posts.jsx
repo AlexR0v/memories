@@ -16,7 +16,7 @@ const Posts = ({setCurrentId}) => {
         spacing={3}
       >
         {
-          data.data.map(post => (
+          data.data && data.data.map(post => (
             <Grid
               key={post._id}
               item

@@ -39,8 +39,22 @@ export const updatePost = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(_id)) {
       return res.status(404).json({ success: false, message: 'Пост не найден' })
     }
-    const updatedPost = await PostMessage.findByIdAndUpdate(_id, req.body, { new: true })
+    const updatedPost = await PostMessage.findByIdAndUpdate(_id, req.body, { new: true, useFindAndModify: false })
     res.status(200).json({ success: true, data: updatedPost, message: 'Пост обновлен' })
+  } catch (e) {
+    res.status(409).json({ message: e.message })
+  }
+}
+
+export const likedPost = async (req, res) => {
+  try {
+    const { id: _id } = req.params
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+      return res.status(404).json({ success: false, message: 'Пост не найден' })
+    }
+    const post = await PostMessage.findById(_id)
+    await PostMessage.findByIdAndUpdate(_id, { likeCount: post.likeCount + 1 }, { new: true, useFindAndModify: false })
+    res.status(200).json({ success: true })
   } catch (e) {
     res.status(409).json({ message: e.message })
   }

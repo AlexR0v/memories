@@ -48,6 +48,7 @@ const Post = ({ post, setCurrentId }) => {
         className={classes.media}
         image={post.selectedFile}
         title={post.title}
+        src='dsd'
       />
       <div className={classes.overlay}>
         <Typography variant='h6'>{post.creator}</Typography>

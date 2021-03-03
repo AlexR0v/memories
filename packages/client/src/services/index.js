@@ -35,9 +35,8 @@ export const updatePost = async (data) => {
 }
 
 export const likedPost = async (data) => {
-  console.log(data)
   try {
-    //return await axios.post(url, data)
+    return await axios.patch(`${url}/${data}`)
   } catch (e) {
     console.log(e)
   }

@@ -5,7 +5,7 @@ import FileBase64 from 'react-file-base64'
 import { useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
 import { queryClient } from '../../index'
-import { createPost, deletePost, updatePost } from '../../services'
+import { createPost, updatePost } from '../../services'
 import { Input } from '../../ui/Input'
 import Loader from '../../ui/Loader'
 import { notifyError, notifySuccess } from '../../ui/Notification/Notification'
@@ -177,7 +177,9 @@ const Form = ({ currentId, setCurrentId }) => {
           size='large'
           type='submit'
           fullWidth
-        >Создать</Button>
+        >{
+          currentId ? 'Обновить' : 'Создать'
+        }</Button>
       </form>
     </Paper>
   )
