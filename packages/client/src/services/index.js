@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = `${process.env.REACT_APP_URL_API}`
+const url = `https://memories-application-mern.herokuapp.com/posts`
 
 export const fetchPost = async () => {
   try {
