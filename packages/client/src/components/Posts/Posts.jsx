@@ -6,7 +6,7 @@ import Post from './Post/Post'
 
 const Posts = ({setCurrentId}) => {
   const classes = useStyles()
-  const data = queryClient.getQueryData('posts').data
+  const data = queryClient.getQueryData('posts')?.data
   return (
     <>
       <Grid
