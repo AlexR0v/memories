@@ -3,7 +3,7 @@
 /site/app/dist
 /*.log
 **/dist
-/**/**.env
+/**/**/.env
 /**/**.env.development
 packages/server/.env
 packages/client/.env

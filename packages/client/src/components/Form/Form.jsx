@@ -1,5 +1,4 @@
 import { Button, Paper, Typography } from '@material-ui/core'
-import * as PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import FileBase64 from 'react-file-base64'
 import { useForm } from 'react-hook-form'
@@ -23,17 +22,6 @@ const schema = yup.object().shape({
 
 })
 
-class Alert extends React.Component {
-  render () {
-    return null
-  }
-}
-
-Alert.propTypes = {
-  severity: PropTypes.string,
-  onClose: PropTypes.any,
-  children: PropTypes.node
-}
 const Form = ({ currentId, setCurrentId }) => {
   const classes = useStyles()
   const [creator, setCreator] = useState('')
@@ -41,6 +29,7 @@ const Form = ({ currentId, setCurrentId }) => {
   const [message, setMessage] = useState('')
   const [tags, setTags] = useState('')
   const [file, setFile] = useState(null)
+  const user = JSON.parse(localStorage.getItem('profile'))
 
   const post = currentId ? queryClient.getQueryData('posts').data?.data.find(post=> post._id === currentId) : null
 
@@ -51,7 +40,10 @@ const Form = ({ currentId, setCurrentId }) => {
       setMessage(post.message)
       setTags(post.tags)
     }
-  }, [post])
+    if(user){
+      setCreator(user.result.name)
+    }
+  }, [post, user])
 
   const { register, handleSubmit, reset, errors } = useForm({
     mode: 'onSubmit',
@@ -102,13 +94,23 @@ const Form = ({ currentId, setCurrentId }) => {
 
   const onSubmit = (value) => {
     if (currentId) {
-      mutationUpdate.mutate({ currentId, value })
+      mutationUpdate.mutate({ currentId, value, name: user?.result?.name })
     } else {
-      mutation.mutate({ ...value, selectedFile: file })
+      mutation.mutate({ ...value, selectedFile: file, name: user?.result?.name })
     }
   }
 
   if (mutation.isLoading) return <Loader />
+
+  if(!user?.result?.name){
+    return (
+      <Paper className={classes.paper}>
+        <Typography variant='h6' align='center'>
+          Необходимо авторизироваться, чтобы создавать и редактировать карточки
+        </Typography>
+      </Paper>
+    )
+  }
 
   return (
     <Paper className={classes.paper}>
